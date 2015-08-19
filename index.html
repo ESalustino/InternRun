@@ -1,0 +1,601 @@
+<html>
+    <head>
+        <title>GWC Graphics and Animation Week!</title>
+        <script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+        <script type="text/processing" data-processing-target="mycanvas">
+
+
+
+        var enemies=["data/enemies.png"];
+        var enemy; 
+        var playerSprites= ["sprites/sprite_2.png","sprites/sprite_3.png"];
+       
+        var pages= ["pages/Intro.png","pages/GameOver.png","pages/YouWin.png"];
+        var score = 3;
+        var scoreCount=true;
+        var x = 0;
+        var y = 475;
+
+// Intro Menu button variables
+        var button;
+        var clicked= false;
+
+        //building variables
+        var build;
+        var build1;
+        var build2;
+        var build3;
+        var build4;
+        var build5;
+        var build6;
+        var build7;
+        var build8;
+
+        var buildM1;
+        var buildM2;
+        var buildM3;
+        var buildM4;
+        var buildM5;
+        var buildM6;
+        var buildM7;
+        var buildM8;
+
+        var buildB1;
+        var buildB2;
+        var buildB3;
+        var buildB4;
+        var buildB5;
+        var buildB6;
+        var buildB7;
+        var buildB8;
+
+        var sidewalk;
+        var street1;
+        var streetpaint1;
+        var streetpaint2;
+        var streetpaint3;
+        var streetpaint4;
+
+        var Moon;
+
+        PImage GameOver;
+        PImage Intro;
+        PImage YouWin;
+
+        void setup()
+        {
+
+            sidewalk= new building(0,550,800,100,[19,3,21],0);
+            street1= new building(0,700,20,50,[20,20,20],1);
+            streetpaint1=new building(750,575,20,10,[250,231,93],3);
+            streetpaint2=new building(500,575,20,10,[250,231,93],3);
+            streetpaint3= new building(250,575,20,10,[250,231,93],3);
+            streetpaint4= new building(0,575,20,10,[250,231,93],3);
+
+        	//foreground
+        	
+        	//middleground
+        	buildM1 = new building(100,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM2 = new building(200,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM3 = new building(300,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM4 = new building(400,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM5 = new building(500,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM6 = new building(600,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM7 = new building(700,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	buildM8 = new building(800,random(400,300),random(300,100),random(900,800),[105,105,105],1);
+        	//background
+        	buildB1 = new building(100,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB2 = new building(200,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB3 = new building(300,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB4 = new building(400,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB5 = new building(500,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB6 = new building(600,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB7 = new building(700,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+        	buildB8 = new building(800,random(300,100),random(300,50),random(900,800),[119,136,153],0.5);
+
+        	Moon = new moon(0,60,50,0.25);
+
+            player1 = new Player(0,475,20);
+
+            enemy= new Enemy(600,530,15); // new enemy
+            enemy2=new Enemy(1200,530,15);
+            enemy3=new Enemy(999,530,15);
+            enemy4=new Enemy(2500,530,15);
+            enemy5=new Enemy(1750,530,15);
+            enemy6=new Enemy(3050,530,10);
+
+
+            button=new Button(400,100,200,250);
+
+           
+
+        	size(800,600);
+        	background(173,216,230);
+
+            GameOver =loadImage(pages[1]);
+            Intro= loadImage(pages[0]);
+            YouWin=loadImage(pages[2]);
+            
+        }
+
+        void draw()
+        {
+            var st
+            image(Intro,0,0);
+            button.drawRectangle();
+
+            if(mousePressed)
+            {
+                if(button.pressed()== true)
+                {
+                    clicked=true;
+                }
+            }
+            if(clicked==true)
+            {
+
+                background(173,216,230);
+
+            	Moon.drawMoon();
+            	
+                sidewalk.drawBuilding();
+                street1.drawBuilding();
+                streetpaint1.drawBuilding();
+                streetpaint2.drawBuilding();
+                streetpaint3.drawBuilding();
+                streetpaint4.drawBuilding();
+
+            	//background
+            	buildB1.drawBuilding();
+            	buildB2.drawBuilding();
+            	buildB3.drawBuilding();
+            	buildB4.drawBuilding();
+            	buildB5.drawBuilding();
+            	buildB6.drawBuilding();
+            	buildB7.drawBuilding();
+            	buildB8.drawBuilding();
+
+            	//mid ground
+            	buildM1.drawBuilding();
+            	buildM2.drawBuilding();
+            	buildM3.drawBuilding();
+            	buildM4.drawBuilding();
+            	buildM5.drawBuilding();
+            	buildM6.drawBuilding();
+            	buildM7.drawBuilding();
+            	buildM8.drawBuilding();
+            	//foreground
+
+            
+            	//mid ground
+            	buildM1.moveBuilding();
+            	buildM2.moveBuilding();
+            	buildM3.moveBuilding();
+            	buildM4.moveBuilding();
+            	buildM5.moveBuilding();
+            	buildM6.moveBuilding();
+            	buildM7.moveBuilding();
+            	buildM8.moveBuilding();
+            	//background
+            	buildB1.moveBuilding();
+            	buildB2.moveBuilding();
+            	buildB3.moveBuilding();
+            	buildB4.moveBuilding();
+            	buildB5.moveBuilding();
+            	buildB6.moveBuilding();
+            	buildB7.moveBuilding();
+            	buildB8.moveBuilding();
+
+                sidewalk.moveBuilding();
+                street1.moveBuilding();
+                streetpaint1.moveBuilding();
+                streetpaint2.moveBuilding();
+                streetpaint3.moveBuilding();
+                streetpaint4.moveBuilding();
+
+            	Moon.moveMoon();
+
+                sidewalk.drawBuilding();
+                street1.drawBuilding();
+                streetpaint1.drawBuilding();
+                streetpaint2.drawBuilding();
+                streetpaint3.drawBuilding();
+                streetpaint4.drawBuilding();
+
+
+                sidewalk.moveBuilding();
+                street1.moveBuilding();
+                streetpaint1.moveBuilding();
+                streetpaint2.moveBuilding();
+                streetpaint3.moveBuilding();
+                streetpaint4.moveBuilding();
+
+                // enemies.drawEnemies;
+                // enemies.moveEnemies;
+
+                player1.drawSprites();
+                
+                // Drawing enemies
+                enemy.drawEnemies(); 
+                enemy2.drawEnemies();
+                enemy3.drawEnemies();
+                enemy4.drawEnemies();
+                enemy5.drawEnemies();
+                enemy6.drawEnemies();
+                
+                //making them move
+                enemy.moveEnemies();
+                enemy2.moveEnemies();
+                enemy2.moveEnemies();
+                enemy3.moveEnemies();
+                enemy4.moveEnemies();
+                enemy5.moveEnemies();
+                enemy6.moveEnemies();
+
+
+                player1.collisions(enemy);
+                player1.collisions(enemy2);
+                player1.collisions(enemy3); 
+                player1.collisions(enemy4);
+                player1.collisions(enemy5);
+                player1.collisions(enemy6);
+                // function to check player and character collisions, check line 445.
+                
+                var string="Health "+score
+
+                fill(0,0,0);
+                textSize(30);
+                text(string,650,50);
+
+                if (score==0)
+                {
+                    image(GameOver,0,0);
+                }
+
+                /*
+                if (score >=100)
+                {
+                    image(YouWin,0,0);
+                    scoreCount:false;
+                    fill(163,19,240);
+                rect(650,50,150,30);
+                }*/
+
+
+            }
+
+
+        }
+
+        class Button
+        {
+            var w;
+            var h;
+            var x;
+            var y;
+            boolean pressed=false;
+
+            Button(width,height,x,y)
+            {
+                w=width;
+                h=height;
+                this.x=x;
+                this.y=y;
+            }
+            void drawRectangle()
+            {
+                noFill();
+
+                rect(x,y,w,h);
+            }
+
+            void pressed()
+            {
+                if(mouseX>=x && mouseX <= x+w && mouseY >= y  && mouseY <=y+h)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+        class building
+        {
+        	var xPos;
+        	var yPos;
+        	var width;
+        	var height;
+        	var r;
+        	var g;
+        	var b;
+        	var xSpeed;
+
+        	building(x,y,w,h,color,speedX)
+        	{
+        		xPos = x;
+        		yPos = y;
+        		width = w;
+        		height = h;
+        		r = color[0];
+        		g = color[1];
+        		b = color[2];
+        		xSpeed = speedX
+        	}
+
+        	void drawBuilding()
+        	{
+	        		noStroke();
+	        		fill(r,g,b);
+	    			rect(xPos,yPos,width,height);
+        	}
+
+        	void moveBuilding()
+        	{
+        		xPos -= xSpeed;
+
+        		if (xPos < -200 )
+        		{
+        			xPos = 800;
+        		}
+        	}
+
+        
+        }
+
+
+        class moon
+        {
+        	var x;
+        	var y;
+        	var size;
+        	var xSpeed;
+
+        	moon(xPos,yPos,s,speedx)
+        	{
+        		x = xPos;
+        		y = yPos;
+        		size = s;
+        		xSpeed = speedx;
+        	}
+
+        	void drawMoon()
+        	{
+        		noStroke();
+        		fill(238,232,170);
+        		ellipse(x,y,size,size);
+        	}
+
+        	void moveMoon()
+        	{
+        		x -= xSpeed;
+
+        		if (x < -50)
+        		{
+        			x = +800;
+        		}
+        	}
+        }
+
+        void keyPressed() 
+        {
+            if (key == CODED) 
+            {
+
+                if (keyCode == RIGHT) 
+                {
+
+                    player1.move(); 
+                    // image(sprite,x,y+3);
+
+                    // image(sprite2,x,y);
+
+
+                    // image(sprite3,x,y+3);
+                    // image(sprite4,x,y+3);
+
+                    // console.log("RightPressed");
+                    // x += 20;
+
+                    // if(x >= 650)
+                    // {
+                    //  x = 0; 
+                    // }
+
+                        // for(var i = 0; i<4;i++)
+                        // {
+                        //  image(sprite[i],x,y);
+                        //  console.log("RightPressed");
+                        // }
+                        
+
+                    
+                }
+
+                if(keyCode == UP)
+                {
+                    
+                    
+                    // x = x + 15; 
+                    // y = y - 90;
+
+                    // if(y <=280)
+                    // {
+                    //  y = 400;
+                    // }
+
+                    // if(x >= 650)
+                    // {
+                    //  x = 0;
+                    // }
+
+                    player1.jump();
+                    
+                    
+                }
+
+                if (keyCode==LEFT)
+                {
+                    goLeft();               
+                }
+            }
+
+
+
+
+
+            
+        }
+
+        void keyReleased()
+        {
+            player1.getDown();  
+
+        }
+
+        class Player
+        {
+            var x;
+            var y;
+            var speed; 
+            var w;
+            var h; 
+
+            PImage first = loadImage(playerSprites[0]);
+            PImage second = loadImage(playerSprites[1]);
+
+            Player(xPosition,yPosition,speed1)
+            {
+                x = xPosition; 
+                y = yPosition;
+                speed = speed1; 
+                w = 130;
+                h = 130;
+            }
+
+            void drawSprites()
+            {
+                image(first,x,y,w,h); 
+            }
+
+            void move()
+            {
+                //image(first,x,y,w,h);
+                image(second,x-20,475,w,h); 
+
+                x+=speed; 
+                if(x >=680)
+                {
+                    x  = 0;  
+                }
+
+                 // line of code that checks collisions with enemies
+            }
+
+            void jump()
+            {
+                x += speed +140; 
+                y = y - 150; 
+
+                if(y<=50)
+                {
+                    y = 400;
+                }
+                if(x>= 650)
+                {
+                    x = 0; 
+                }
+            }
+            void getDown()
+            {
+                y = 500; 
+            }
+
+            void getY()
+            {
+                return y; 
+            }
+
+            void goLeft()
+            {
+                x+=speed-30;
+            }
+
+            void collisions(Object other)
+            {
+                if(x>= other.x-30 && x <= other.x+ other.w && y <= other.y && y>=other.y - other.h)
+                    {
+                        console.log("Game Over");
+                        other.deleteEnemies(); 
+                        score-=1;
+                    }
+
+           
+            }
+
+
+     
+            
+
+
+
+        }
+
+        class Enemy  // enemy class
+        {
+            var x;
+            var y;
+            var speed;
+            var w;
+            var h;
+            
+            PImage enemy1= loadImage(enemies);
+
+            Enemy(xPosition,yPosition,speed2)
+            {
+                    x=xPosition;
+                    y=yPosition;
+                    speed=speed2;
+                    w=90;
+                    h=130;
+            }
+
+            void drawEnemies()
+            {
+                image(enemy1,x,y,w,h);
+            }
+
+            void moveEnemies()
+            {
+            
+                x-=0.5;
+
+
+                
+            }
+
+            void deleteEnemies()
+            {
+
+                x = 800;
+                y = 800; 
+            }
+
+            
+
+        }   
+
+    
+
+       
+
+
+
+
+
+</script>
+    </head>
+    <body>
+        <canvas id="mycanvas"></canvas>
+    </body>
+</html>
