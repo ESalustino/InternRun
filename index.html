@@ -1,20 +1,23 @@
 <html>
     <head>
-        <title>GWC Graphics and Animation Week!</title>
+        <title>Intern Run!</title>
         <script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
         <script type="text/processing" data-processing-target="mycanvas">
 
 
 
         var enemies=["data/enemies.png"];
+        var newsSprite = ["data/newspaper.png"];
         var enemy; 
         var playerSprites= ["sprites/sprite_2.png","sprites/sprite_3.png"];
        
         var pages= ["pages/Intro.png","pages/GameOver.png","pages/YouWin.png"];
-        var score = 3;
-        var scoreCount=true;
+        var health = 5;
+        //var scoreCount = true;
+        var score = 0; 
         var x = 0;
         var y = 475;
+
 
 // Intro Menu button variables
         var button;
@@ -58,9 +61,16 @@
 
         var Moon;
 
+        var scroll;
+
         PImage GameOver;
         PImage Intro;
         PImage YouWin;
+
+        var continueScore = true; 
+
+
+
 
         void setup()
         {
@@ -95,14 +105,26 @@
 
         	Moon = new moon(0,60,50,0.25);
 
-            player1 = new Player(0,475,20);
+            player1 = new Player(0,455,20);
 
-            enemy= new Enemy(600,530,15); // new enemy
-            enemy2=new Enemy(1200,530,15);
-            enemy3=new Enemy(999,530,15);
-            enemy4=new Enemy(2500,530,15);
-            enemy5=new Enemy(1750,530,15);
-            enemy6=new Enemy(3050,530,10);
+            scroll = new Scroller(800,2);
+
+            enemy= new Enemy(400,530,10); // new enemy
+            enemy2=new Enemy(800,530,10);
+            enemy3=new Enemy(1200,530,10);
+            enemy4=new Enemy(1600,530,10);
+            enemy5=new Enemy(2100,530,10);
+            enemy6=new Enemy(2500,530,10);
+            enemy7=new Enemy(2900,530,10);
+            enemy8=new Enemy(3300,530,10);
+            enemy9=new Enemy(3700,530,10);
+            enemy10=new Enemy(4100,530,10);
+            enemy11=new Enemy(4500,530,10);
+            enemy12=new Enemy(4900,530,10);
+            enemy13=new Enemy(5300,530,10);
+            enemy14=new Enemy(5700,530,10);
+            enemy15=new Enemy(6100,530,10);
+
 
 
             button=new Button(400,100,200,250);
@@ -214,6 +236,12 @@
                 // enemies.moveEnemies;
 
                 player1.drawSprites();
+
+
+                scroll.drawNewspapers(); 
+                scroll.checkCollissions(); 
+                scroll.moveNewspapers();
+
                 
                 // Drawing enemies
                 enemy.drawEnemies(); 
@@ -222,6 +250,15 @@
                 enemy4.drawEnemies();
                 enemy5.drawEnemies();
                 enemy6.drawEnemies();
+                enemy7.drawEnemies();
+                enemy8.drawEnemies();
+                enemy9.drawEnemies();
+                enemy10.drawEnemies();
+                enemy11.drawEnemies();
+                enemy12.drawEnemies();
+                enemy13.drawEnemies();
+                enemy14.drawEnemies();
+                enemy15.drawEnemies();
                 
                 //making them move
                 enemy.moveEnemies();
@@ -231,7 +268,16 @@
                 enemy4.moveEnemies();
                 enemy5.moveEnemies();
                 enemy6.moveEnemies();
-
+                enemy7.moveEnemies();
+                enemy8.moveEnemies();
+                enemy9.moveEnemies();
+                enemy10.moveEnemies();
+                enemy11.moveEnemies();
+                enemy12.moveEnemies();
+                enemy13.moveEnemies();
+                enemy14.moveEnemies();
+                enemy15.moveEnemies();
+                
 
                 player1.collisions(enemy);
                 player1.collisions(enemy2);
@@ -239,17 +285,36 @@
                 player1.collisions(enemy4);
                 player1.collisions(enemy5);
                 player1.collisions(enemy6);
+                player1.collisions(enemy7);
+                player1.collisions(enemy8);
+                player1.collisions(enemy9);
+                player1.collisions(enemy10);
+                player1.collisions(enemy11);
+                player1.collisions(enemy12);
+                player1.collisions(enemy13);
+                player1.collisions(enemy14);
+                player1.collisions(enemy15);
+               
+
                 // function to check player and character collisions, check line 445.
                 
-                var string="Health "+score
+                var string="Health: "+ health;
+                var string2 = "Score: " + score;
 
                 fill(0,0,0);
                 textSize(30);
                 text(string,650,50);
 
-                if (score==0)
+                text(string2,650,100);
+
+                if (health <= 0)
                 {
                     image(GameOver,0,0);
+                }
+
+                if( score >= 10)
+                {
+                    image(YouWin,0,0);
                 }
 
                 /*
@@ -385,7 +450,7 @@
                 if (keyCode == RIGHT) 
                 {
 
-                    player1.move(); 
+                    //player1.move(); 
                     // image(sprite,x,y+3);
 
                     // image(sprite2,x,y);
@@ -481,7 +546,7 @@
             void move()
             {
                 //image(first,x,y,w,h);
-                image(second,x-20,475,w,h); 
+                image(second,x-20,455,w,h); 
 
                 x+=speed; 
                 if(x >=680)
@@ -494,10 +559,10 @@
 
             void jump()
             {
-                x += speed +140; 
+                x += speed + 140; 
                 y = y - 150; 
 
-                if(y<=50)
+                if(y<=200)
                 {
                     y = 400;
                 }
@@ -508,7 +573,7 @@
             }
             void getDown()
             {
-                y = 500; 
+                y = 455; 
             }
 
             void getY()
@@ -527,10 +592,28 @@
                     {
                         console.log("Game Over");
                         other.deleteEnemies(); 
-                        score-=1;
+                        health-=1;
                     }
 
            
+            }
+
+            void checkCollissions(Object other)
+            {
+                if(x>= other.x - 30 && x<= other.x + other.w + 20 && y<= other.y && y>= other.y - other.h - 20 )
+                {   
+
+                    other.eraseNews(); 
+                    console.log("NEWS");
+                    if(continueScore == true)
+                    {
+                        score +=1; 
+                    }
+                    
+                    //console.log("");
+                    //console.log(x , "    ", other.x , "       ", other.x + other.w);
+                    //console.log(y, "  ", other.y , "  ", other.y - other.h); 
+                }
             }
 
 
@@ -538,6 +621,51 @@
             
 
 
+
+        }
+
+        class News
+        {
+            var x;
+            var y;
+            var h;
+            var w;
+            var xPos = x; 
+            
+         
+            
+
+            
+            PImage newspaper = loadImage(newsSprite);
+
+            News(x1,y1,w1,h1)
+            {
+                x = x1;
+                y = y1;
+                h = h1;
+                w = w1;
+            }
+
+            void drawNews()
+            {
+                image(newspaper,x,y,w,h); 
+            }
+            void moveNews(speed)
+            {
+                //var moveDistance = Math.floor(Math.random() * (2-1) + 1); 
+                //x-=moveDistance;
+
+                x-=speed; 
+
+            }
+            void eraseNews()
+            {
+                x = Math.random()*(10000 - 8000) + 8000 ;
+                
+                //console.log("Deleted!!"); 
+                //deleted = true; 
+            }
+        
 
         }
 
@@ -556,7 +684,7 @@
                     x=xPosition;
                     y=yPosition;
                     speed=speed2;
-                    w=90;
+                    w=70;
                     h=130;
             }
 
@@ -568,7 +696,8 @@
             void moveEnemies()
             {
             
-                x-=0.5;
+                x-=1;;
+
 
 
                 
@@ -577,14 +706,126 @@
             void deleteEnemies()
             {
 
-                x = 800;
-                y = 800; 
+                x = 10000;
+                
             }
 
             
 
         }   
 
+        class Scroller
+        {
+            var layerWidth;
+            //var layerHeight; 
+            //var basePosition; 
+            var speed;
+            //var r;
+            //var g;
+            //var b;
+            //var scrollEndX = 0;
+            var scrollEndX2 = 0; 
+           // var scrollEndX3 = 0;
+            var news= new Array();
+            //var buildings = new Array();
+           // var enemyList = new Array(); 
+
+
+            
+            Scroller(width,scrollSpeed)
+            {
+                layerWidth = width;
+                //layerHeight = height;
+                //basePosition = base;
+                speed = scrollSpeed;
+                
+                
+
+                currentWidth2 = 500;
+                while(currentWidth2 <= layerWidth)
+                {
+                    //var newsX = currentWidth2 + Math.random()*(200-100) + 100; 
+                    var newsX = currentWidth2 + 50; 
+                    var newsY = 350;
+                    news.push(new News(newsX, newsY , 50, 50)); 
+
+                    currentWidth2 += newsX + 50;
+                }
+
+                scrollEndX2 = currentWidth2 ; 
+
+                
+
+
+
+            }
+            
+            //putting classes in an array 
+            //In this case the instances of Building class are put into an array called Buildings 
+            
+          
+            
+            void drawNewspapers()
+            {
+                for(var i = 0; i < news.length; i++)
+                {
+                    news[i].drawNews();
+                }
+            }
+
+          
+
+         
+
+            void moveNewspapers()
+            {
+                for(var i = 0; i < news.length; i++)
+                {
+                    news[i].moveNews(speed); 
+                }
+
+                scrollEndX2 -= speed;
+                if(scrollEndX2 <= 800)
+                {
+                    addNewsPaper(scrollEndX2);
+                }
+            }
+
+            
+
+            void checkCollissions()
+            {
+                for(var i = 0; i < news.length; i++)
+                {
+                    player1.checkCollissions(news[i]);
+                    
+                }
+
+
+            }
+
+            
+            
+
+            void addNewsPaper(xLocation)
+            {
+                //var newsX = currentWidth2 + Math.random()*(200-100) + 100; 
+                //newsX = 50;
+                //var currentWidth2 = xLocation;
+
+                //newsX = currentWidth2; 
+                var newsY = 350;
+                news.push(new News(xLocation,newsY,50,50)); 
+
+                
+                //currentWidth2 += newsX + 50;
+
+                scrollEndX2 += Math.random()*(250) + 150;
+
+                //console.log("addNewsPaper");
+            }
+
+        }
     
 
        
